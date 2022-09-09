@@ -11,7 +11,7 @@ env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: deingvelopawsbucket
   CODE_DEPLOY_APPLICATION_NAME: my-aws-codedploy
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-aws-codedploy-GROUP
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-aws-codedploy-group
 
 permissions:
   contents: read
