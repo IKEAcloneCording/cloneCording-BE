@@ -26,6 +26,7 @@ public class Cart {
     private Integer delivery_fee;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
