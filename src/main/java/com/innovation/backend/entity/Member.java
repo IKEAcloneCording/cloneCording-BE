@@ -2,7 +2,6 @@ package com.innovation.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
