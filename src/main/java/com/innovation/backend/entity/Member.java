@@ -25,9 +25,5 @@ public class Member {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Wish> wishes;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Cart> carts;
 }
