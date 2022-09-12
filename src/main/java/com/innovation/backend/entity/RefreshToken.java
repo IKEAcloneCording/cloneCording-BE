@@ -1,7 +1,7 @@
 package com.innovation.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,17 +10,22 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-public class Wish {
+public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JoinColumn(name = "member_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Product product;
+    @Column(nullable = false)
+    private String tokenValue;
+
+    public void updateValue(String tokenValue){
+        this.tokenValue = tokenValue;
+    }
+
 }

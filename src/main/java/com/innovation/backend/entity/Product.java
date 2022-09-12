@@ -15,7 +15,7 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -28,12 +28,8 @@ public class Product {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Wish> wishes;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Cart> carts;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 }
