@@ -223,7 +223,7 @@ class MemberServiceTest {
             when(memberRepository.findByUsername(presentUsername)).thenReturn(Optional.ofNullable(presentUser));
 
             // when
-            Object presentUsernameResult = memberService.isPresentMemberByEmail("presentEmail@google.com");
+            Object presentUsernameResult = memberService.isPresentMemberByUsername("presentEmail@google.com");
 
             // then
             Assertions.assertThat(presentUsername).isNotNull();
