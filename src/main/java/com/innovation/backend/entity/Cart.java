@@ -22,6 +22,7 @@ public class Cart {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="member_id")
+ //   @JsonIgnore
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)

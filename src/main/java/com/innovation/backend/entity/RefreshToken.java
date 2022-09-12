@@ -1,26 +1,31 @@
 package com.innovation.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-public class Category {
+public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @JoinColumn(name = "member_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member member;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Product> products;
+    @Column(nullable = false)
+    private String tokenValue;
+
+    public void updateValue(String tokenValue){
+        this.tokenValue = tokenValue;
+    }
+
 }

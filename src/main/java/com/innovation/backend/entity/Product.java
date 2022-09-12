@@ -26,11 +26,10 @@ public class Product {
     @Column(nullable = false)
     private Integer price;
 
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Cart> carts;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 }

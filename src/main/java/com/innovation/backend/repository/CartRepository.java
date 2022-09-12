@@ -1,5 +1,6 @@
 package com.innovation.backend.repository;
 
+
 import com.innovation.backend.dto.response.CartResponseDto;
 import com.innovation.backend.entity.Cart;
 import com.innovation.backend.entity.Member;
@@ -13,11 +14,11 @@ public interface CartRepository extends JpaRepository< Cart, Long> {
 
   List<CartResponseDto> findByMember(Member member);
 
-  Optional<Cart> findByIdAndMember (Long id,Member member);
+  Optional<Cart> findByIdAndMember(Long id, Member member);
 
-  void deleteByMember (Member member);
+  void deleteByMember(Member member);
 
-  List<Cart> findByMemberAndProduct  (Member member, Product product);
+  List<Cart> findByMemberAndProduct(Member member, Product product);
 
 
 }
