@@ -50,12 +50,13 @@ public class MemberService {
 
         else {
 
-            Member member = Member.builder()
-                    .username(username)
-                    .password(passwordEncoder.encode(password))
-                    .name(name)
-                    .phoneNumber(phoneNumber)
-                    .address(address)
+            Member.MemberBuilder builder = Member.builder();
+            builder.username(username);
+            builder.password(passwordEncoder.encode(password));
+            builder.name(name);
+            builder.phoneNumber(phoneNumber);
+            builder.address(address);
+            Member member = builder
                     .build();
 
             memberRepository.save(member);
@@ -82,7 +83,7 @@ public class MemberService {
 
     private boolean emailStrCheck (String email){
 //        return Pattern.matches("^[a-zA-Z0-9]{1,64}+@[a-zA-Z0-9]{1,100}+$", email);
-        return Pattern.matches("^[a-zA-Z0-9]+@[a-z]+.[a-z]+$", email);
+        return Pattern.matches("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){1,64}@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$", email);
     }
 
     private boolean passwordStrCheck (String password){
