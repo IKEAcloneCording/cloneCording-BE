@@ -3,14 +3,14 @@ name: Deploy to Amazon EC2
 on:
   push:
     branches:
-      - main
+      - ci
 
 # 본인이 설정한 값을 여기서 채워넣습니다.
 # 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: deingvelopawsbucket
-  RESOURCE_PATH: ./src/main/resources/application.yaml
+#  RESOURCE_PATH: ./src/main/resources/application.yml
   CODE_DEPLOY_APPLICATION_NAME: my-codedeploy-app
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-codedeploy-deployment-group
 
