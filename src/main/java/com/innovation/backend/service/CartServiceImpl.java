@@ -9,6 +9,7 @@ import com.innovation.backend.entity.Product;
 import com.innovation.backend.exception.ErrorCode;
 import com.innovation.backend.repository.CartRepository;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class CartServiceImpl implements CartService{
   //장바구니에 상품 추가하기
   @Transactional
   @Override
-  public CartResponseDto addCart (CartRequestDto cartRequestDto, Member member, Product product){
+  public CartResponseDto addCart(CartRequestDto cartRequestDto, Member member, Product product){
     List<Cart> cartList = cartRepository.findByMemberAndProduct(member, product);
     Cart cart;
     //장바구니에 상품이 없을 때
@@ -51,9 +52,10 @@ public class CartServiceImpl implements CartService{
   //장바구니 상품 수량 변경
   @Transactional
   @Override
-  public CartResponseDto changeItemCount(Long id,Member member,CartRequestDto cartRequestDto) {
+  public CartResponseDto changeItemCount(Long id, Member member, CartRequestDto cartRequestDto) {
     Cart cart = cartRepository.findByIdAndMember(id,member)//cart_id
-        .orElseThrow(() -> new CustomException(ErrorCode.ENTITY_NOT_FOUND));
+        .orElseThrow(EntityNotFoundException::new);
+//        .orElseThrow(() -> new Exception (ErrorCode.ENTITY_NOT_FOUND));
     cart.changeCount(cartRequestDto.getCount());
     return new CartResponseDto(cart);
   }

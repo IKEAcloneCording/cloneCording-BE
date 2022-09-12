@@ -35,13 +35,13 @@ public class CartController {
       Member member = userDetails.getMember();
 //product.productRepository.find웅앵
       cartResponseDto = cartService.addCart(cartRequestDto, member,product);
-    } catch (Exception e) {
+    } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null, ErrorCode.INVALID_ERROR);
+      return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
 
     } catch (Exception e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null, ErrorCode.INVALID_ERROR);
+      return ResponseDto.fail(ErrorCode.INVALID_ERROR);
     }
     return ResponseDto.success(cartResponseDto);
   }
@@ -57,10 +57,11 @@ public class CartController {
 
     } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null, ErrorCode.ENTITY_NOT_FOUND);
+      return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
+
     } catch (Exception e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null, ErrorCode.ENTITY_NOT_FOUND);
+      return ResponseDto.fail(ErrorCode.INVALID_ERROR);
     }
     return ResponseDto.success(cartResponseDtoList);
   }
@@ -74,12 +75,13 @@ public class CartController {
     try {
       Member member = userDetails.getMember();
       cartResponseDto = cartService.changeItemCount(id,member,cartRequestDto);
-    }catch (EntityNotFoundException e) {
+    } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null, ErrorCode.ENTITY_NOT_FOUND);
+      return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
+
     } catch (Exception e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null, ErrorCode.ENTITY_NOT_FOUND);
+      return ResponseDto.fail(ErrorCode.INVALID_ERROR);
     }
     return ResponseDto.success(cartResponseDto);
   }
@@ -90,12 +92,13 @@ public class CartController {
 public ResponseDto<String> deleteOneItem (Long id){
   try {
     cartService.deleteOneItem(id);
-  }catch (EntityNotFoundException e){
+  } catch (EntityNotFoundException e) {
     log.error(e.getMessage());
-    return new ResponseDto<>(null,ErrorCode.ENTITY_NOT_FOUND);
-  }catch (Exception e){
+    return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
+
+  } catch (Exception e) {
     log.error(e.getMessage());
-    return new ResponseDto<>(null,ErrorCode.INVALID_ERROR);
+    return ResponseDto.fail(ErrorCode.INVALID_ERROR);
   }
   return ResponseDto.success("success");
 }
@@ -106,12 +109,14 @@ public ResponseDto<String> deleteOneItem (Long id){
     try {
       Member member = userDetails.getMember();
       cartService.deleteAllItem(member);
-    }catch (EntityNotFoundException e){
+
+    } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null,ErrorCode.ENTITY_NOT_FOUND);
-    }catch (Exception e){
+      return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
+
+    } catch (Exception e) {
       log.error(e.getMessage());
-      return new ResponseDto<>(null,ErrorCode.INVALID_ERROR);
+      return ResponseDto.fail(ErrorCode.INVALID_ERROR);
     }
     return ResponseDto.success("success");
   }

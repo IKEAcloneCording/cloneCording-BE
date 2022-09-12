@@ -9,6 +9,9 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
+    ENTITY_NOT_FOUND("ENTITY_NOT_FOUND","데이터가 존재하지 않습니다."),
+    INVALID_ERROR("INVALID_ERROR","에러 발생"),
+
     //회원가입, 로그인 관련 에러
     DUPLICATE_ID("DUPLICATE_ID", "중복된 아이디가 있습니다."),
     DUPLICATE_NICKNAME("DUPLICATE_NICKNAME", "중복된 닉네임이 있습니다."),
