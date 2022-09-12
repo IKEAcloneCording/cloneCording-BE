@@ -24,9 +24,6 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Wish> wishes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
     @JsonIgnore
