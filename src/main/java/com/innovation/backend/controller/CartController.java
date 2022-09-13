@@ -6,12 +6,16 @@ import com.innovation.backend.dto.resquest.CartRequestDto;
 import com.innovation.backend.entity.Member;
 import com.innovation.backend.entity.Product;
 import com.innovation.backend.exception.ErrorCode;
+import com.innovation.backend.repository.ProductRepository;
+import com.innovation.backend.security.user.UserDetailsImpl;
 import com.innovation.backend.service.CartService;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,15 +30,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class CartController {
 
   private final CartService cartService;
+  private final ProductRepository productRepository;
 
   //장바구니 상품 추가
-  @PostMapping("/api/cart")
+  @PostMapping("/api/auth/cart")
   public ResponseDto<CartResponseDto> addCart(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CartRequestDto cartRequestDto) {
     CartResponseDto cartResponseDto;
     try {
       Member member = userDetails.getMember();
 //product.productRepository.find웅앵
-      cartResponseDto = cartService.addCart(cartRequestDto, member,product);
+      Product product = productRepository.findById(1L)
+          .orElseThrow(EntityNotFoundException::new);
+//      Product product = optionalProduct.get();
+
+      cartResponseDto = cartService.addCart(cartRequestDto,member,product);
     } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
       return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
@@ -48,7 +57,7 @@ public class CartController {
 
 
   //장바구니 조회
-  @GetMapping("/api/cart")
+  @GetMapping("/api/auth/cart")
   public ResponseDto<List<CartResponseDto>> getCart(@AuthenticationPrincipal UserDetailsImpl userDetails){
     List<CartResponseDto> cartResponseDtoList;
     try {
@@ -69,7 +78,7 @@ public class CartController {
 
 
   //장바구니 상품 수량 변경
-  @PutMapping("/api/cart/{id}/change-count")
+  @PutMapping("/api/auth/cart/{id}/change-count")
   public ResponseDto<CartResponseDto>  changeCount (@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CartRequestDto cartRequestDto ){
     CartResponseDto cartResponseDto;
     try {
@@ -88,8 +97,8 @@ public class CartController {
 
 
   //장바구니 상품 삭제
-@DeleteMapping("/api/cart/{id}")
-public ResponseDto<String> deleteOneItem (Long id){
+@DeleteMapping("/api/auth/cart/{id}")
+public ResponseDto<String> deleteOneItem (@PathVariable Long id){
   try {
     cartService.deleteOneItem(id);
   } catch (EntityNotFoundException e) {
@@ -104,7 +113,7 @@ public ResponseDto<String> deleteOneItem (Long id){
 }
 
   //장바구니 상품 전체 삭제
-  @DeleteMapping("/api/cart")
+  @DeleteMapping("/api/auth/cart")
   public ResponseDto<String> deleteAllItem (@AuthenticationPrincipal UserDetailsImpl userDetails){
     try {
       Member member = userDetails.getMember();
