@@ -1,5 +1,6 @@
 package com.innovation.backend.controller;
 
+import com.innovation.backend.dto.request.LoginRequestDto;
 import com.innovation.backend.dto.request.SignupRequestDto;
 import com.innovation.backend.dto.response.ResponseDto;
 import com.innovation.backend.security.user.UserDetailsImpl;
@@ -19,9 +20,16 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    //회원가입 - 모두 접근 가능
+    //회원가입
     @PostMapping("/api/signup")
     public ResponseDto<?> signup(@RequestBody SignupRequestDto signupRequestDto) {
         return memberService.signup(signupRequestDto);
+    }
+
+
+    // 로그인
+    @PostMapping("/api/login")
+    public ResponseDto<?> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+        return memberService.login(loginRequestDto, response);
     }
 }

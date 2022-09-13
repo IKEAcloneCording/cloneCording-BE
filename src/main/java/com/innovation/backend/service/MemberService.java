@@ -1,9 +1,11 @@
 package com.innovation.backend.service;
 
+import com.innovation.backend.dto.request.LoginRequestDto;
 import com.innovation.backend.dto.request.SignupRequestDto;
 import com.innovation.backend.dto.response.MemberResponseDto;
 import com.innovation.backend.dto.response.ResponseDto;
 import com.innovation.backend.entity.Member;
+import com.innovation.backend.entity.RefreshToken;
 import com.innovation.backend.exception.ErrorCode;
 import com.innovation.backend.jwt.util.JwtUtil;
 import com.innovation.backend.jwt.util.TokenProperties;
@@ -71,12 +73,58 @@ public class MemberService {
         }
     }
 
+
+    @Transactional
+    public ResponseDto<?> login(LoginRequestDto loginRequestDto, HttpServletResponse response){
+        String username = loginRequestDto.getEmail();
+        Member member = isPresentMemberByUsername(username);
+
+        if(member == null){return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);}
+
+        if(!member.validatePassword(passwordEncoder,loginRequestDto.getPassword())){
+            return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);
+        }
+
+        // 토큰 발급
+        String accessToken = jwtUtil.createToken(username,TokenProperties.AUTH_HEADER);
+        String refreshToken = jwtUtil.createToken(username, TokenProperties.REFRESH_HEADER);
+
+        RefreshToken refreshTokenFromDB = jwtUtil.getRefreshTokenFromDB(member);
+
+        // 로그인 경력 있는 user (DB에 Refresh Token 있음) -> 새로 로그인 했으면 새로 발급받는 토큰으로 변경
+        // 로그인 처음 하는 user (DB에 Refresh Token 없음) -> 발급받은 Refresh 토큰 저장
+        if(refreshTokenFromDB == null){
+            RefreshToken saveRefreshToken = RefreshToken.builder()
+                    .member(member)
+                    .tokenValue(refreshToken)
+                    .build();
+            refreshTokenRepository.save(saveRefreshToken);
+        }else{
+            refreshTokenFromDB.updateValue(refreshToken);
+        }
+
+        // 헤더에 응답으로 보내줌
+        TokenToHeaders(response, accessToken, refreshToken);
+
+        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+                .id(member.getId())
+                .email(member.getUsername())
+                .name(member.getName())
+                .build();
+        return ResponseDto.success(memberResponseDto);
+    }
+
     // 회원가입 조건 검증
     private boolean emailDuplicateCheck(String email){
-        Object member = isPresentMemberByEmail(email);
+        Object member = isPresentMemberByUsername(email);
         return member == null;
     }
 
+    private boolean phoneNumberStrCheck (String phoneNumber){
+        return Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumber);
+    }
+
+    // 회원가입, 로그인 조건 검증
     public boolean nullCheck(String valueForSignup){
         return valueForSignup == null || valueForSignup.equals("") || valueForSignup.equals(" ");
     }
@@ -90,14 +138,10 @@ public class MemberService {
         return Pattern.matches("^[A-Z0-9]{8,}$", password);
     }
 
-    private boolean phoneNumberStrCheck (String phoneNumber){
-        return Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumber);
-    }
-
     @Transactional(readOnly = true)
-    public Object isPresentMemberByEmail(String email) {
-        Optional<Object> optionalMember = memberRepository.findByUsername(email);
-        return optionalMember.orElse(null);
+    public Member isPresentMemberByUsername(String username) {
+        Optional<Object> optionalMember = memberRepository.findByUsername(username);
+        return (Member) optionalMember.orElse(null);
     }
 
     private void TokenToHeaders(HttpServletResponse response, String accessToken, String refreshToken) {
