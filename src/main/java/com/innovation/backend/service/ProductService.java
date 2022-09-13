@@ -23,13 +23,36 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
+    public ResponseDto<?> showProductsByCategory(String categoryName) {
+        Category selectedCategory = categoryRepository.findByName(categoryName);
+        List<Product> productList = productRepository.findAllByCategory(selectedCategory);
+
+        List<ProductResponseDto> catProductsResult = new ArrayList<>();
+
+        for (Product product : productList) {
+            catProductsResult.add(
+                    ProductResponseDto.builder()
+                            .id(product.getId())
+                            .name(product.getName())
+                            .description(product.getDescription())
+                            .price(product.getPrice())
+                            .image_url(product.getImageUrl())
+                            .subImage_url(product.getSubImageUrl())
+                            .url(product.getUrl())
+                            .build()
+            );
+        }
+        return ResponseDto.success(catProductsResult);
+    }
+
+    @Transactional
     public ResponseDto<?> searchProducts(String searchKeyword) {
 
-        // 1. 카테고리로 검색 리스트 만들기
+        // 1. 카테고리 연관 키워드로 검색 리스트 만들기
         Category relatedCategory = categoryRepository.findByRelatedKeywordsContaining(searchKeyword);
         List<Product> categorySearch = productRepository.findAllByCategory(relatedCategory);
 
-        // 2. 설명으로 검색 리스트 만들기
+        // 2. 상품 상세 설명으로 검색 리스트 만들기
         List<Product> descriptionSearch = productRepository.findAllByDescriptionContaining(searchKeyword);
 
         // 2. 두 리스트 병합
