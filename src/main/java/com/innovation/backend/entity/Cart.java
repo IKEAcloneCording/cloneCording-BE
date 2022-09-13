@@ -3,6 +3,7 @@ package com.innovation.backend.entity;
 import com.innovation.backend.dto.resquest.CartRequestDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,18 +15,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Cart {
+public class Cart extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="member_id")
- //   @JsonIgnore
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="product_id")
     private Product product;
 
@@ -40,14 +40,13 @@ public class Cart {
     @Column(nullable = false)
     private BigDecimal  delivery_fee; //배송비
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDate createDate; // 날짜
 
-public Cart (CartRequestDto cartRequestDto, Member member, Product product){
+public Cart (CartRequestDto cartRequestDto,Member member, Product product){
     this.product = product;
     this.member = member;
-    this.count = 1;
+    this.count = cartRequestDto.getCount();
     this.sum =new BigDecimal(product.getPrice() * count);
+    this.delivery_fee = new BigDecimal(count * 15000);
 }
 
     public void changeCount(int count){

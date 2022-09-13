@@ -10,6 +10,6 @@ public class CartRequestDto {
   @NotNull
   private Long productId;
 
-  private Integer count;
+  private int count;
 
 }

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface CartService {
 
   //장바구니에 상품 추가하기
-  CartResponseDto addCart(CartRequestDto cartRequestDto, Member member, Product product);
+  CartResponseDto addCart(CartRequestDto cartRequestDto,Member member, Product product);
 
   //장바구니 조회하기
   List<CartResponseDto> getCartList(Member member);
