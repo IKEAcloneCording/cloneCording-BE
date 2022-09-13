@@ -45,7 +45,6 @@ public class CartServiceImpl implements CartService{
   }
 
 
-
   //장바구니 조회하기
   @Override
   public List<CartResponseDto> getCartList(Member member) {
@@ -63,14 +62,12 @@ public class CartServiceImpl implements CartService{
 //    return cartResponseDtoList;
   }
 
-
   //장바구니 상품 수량 변경
   @Transactional
   @Override
   public CartResponseDto changeItemCount(Long id, Member member, CartRequestDto cartRequestDto) {
     Cart cart = cartRepository.findByIdAndMember(id,member)//cart_id
         .orElseThrow(EntityNotFoundException::new);
-//        .orElseThrow(() -> new Exception (ErrorCode.ENTITY_NOT_FOUND));
     cart.changeCount(cartRequestDto.getCount());
     return new CartResponseDto(cart);
   }

@@ -38,16 +38,12 @@ public class CartController {
     CartResponseDto cartResponseDto;
     try {
       Member member = userDetails.getMember();
-//product.productRepository.find웅앵
-      Product product = productRepository.findById(1L)
+      Product product = productRepository.findById(cartRequestDto.getProductId())
           .orElseThrow(EntityNotFoundException::new);
-//      Product product = optionalProduct.get();
-
       cartResponseDto = cartService.addCart(cartRequestDto,member,product);
     } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
       return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
-
     } catch (Exception e) {
       log.error(e.getMessage());
       return ResponseDto.fail(ErrorCode.INVALID_ERROR);
@@ -63,7 +59,6 @@ public class CartController {
     try {
       Member member = userDetails.getMember();
       cartResponseDtoList = cartService.getCartList(member);
-
     } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
       return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
