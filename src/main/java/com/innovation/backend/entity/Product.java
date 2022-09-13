@@ -26,7 +26,7 @@ public class Product {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column
     private String measurement;
 
     @Column(nullable = false)
