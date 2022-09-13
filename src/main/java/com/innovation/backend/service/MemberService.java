@@ -7,7 +7,7 @@ import com.innovation.backend.dto.response.MessageResponseDto;
 import com.innovation.backend.dto.response.ResponseDto;
 import com.innovation.backend.entity.Member;
 import com.innovation.backend.entity.RefreshToken;
-import com.innovation.backend.exception.ErrorCode;
+import com.innovation.backend.exception.*;
 import com.innovation.backend.jwt.util.JwtUtil;
 import com.innovation.backend.jwt.util.TokenProperties;
 import com.innovation.backend.repository.MemberRepository;
@@ -41,17 +41,17 @@ public class MemberService {
         String phoneNumber = signupRequestDto.getPhone_number();
         String address = signupRequestDto.getAddress();
 
-        if (!emailStrCheck(username)) {return ResponseDto.fail(ErrorCode.INVALID_EMAIL);}
+        if (!emailStrCheck(username)) {throw new InvalidUsernameException(ErrorCode.INVALID_EMAIL);}
 
-        if (!emailDuplicateCheck(username)) {return ResponseDto.fail(ErrorCode.DUPLICATE_EMAIL);}
+        if (!emailDuplicateCheck(username)) {throw new DuplicateUsernameException(ErrorCode.DUPLICATE_EMAIL);}
 
-        if (!passwordStrCheck(password)) {return ResponseDto.fail(ErrorCode.INVALID_PASSWORD);}
+        if (!passwordStrCheck(password)) {throw new InvalidPasswordException(ErrorCode.INVALID_PASSWORD);}
 
-        if (!phoneNumberStrCheck(phoneNumber)) {return ResponseDto.fail(ErrorCode.INVALID_PHONE_NUMBER);}
+        if (!phoneNumberStrCheck(phoneNumber)) {throw new InvalidPhoneNumberException(ErrorCode.INVALID_PHONE_NUMBER);}
 
-        if (nullCheck(name)) {return ResponseDto.fail(ErrorCode.EMPTY_VALUE);}
+        if (nullCheck(name)) {throw new EmptyValueException(ErrorCode.EMPTY_VALUE);}
 
-        if (nullCheck(address)) {return ResponseDto.fail(ErrorCode.EMPTY_VALUE);}
+        if (nullCheck(address)) {throw new EmptyValueException(ErrorCode.EMPTY_VALUE);}
 
         else {
 
@@ -81,11 +81,10 @@ public class MemberService {
         String username = loginRequestDto.getEmail();
         Member member = isPresentMemberByUsername(username);
 
-        if(member == null){return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);}
-        if(member == null){return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);}
+        if(member == null){ throw new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND);}
 
         if(!member.validatePassword(passwordEncoder,loginRequestDto.getPassword())){
-            return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);
+            throw new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND);
         }
 
         // 토큰 발급
@@ -124,10 +123,10 @@ public class MemberService {
 
         String refreshHeader = request.getHeader(TokenProperties.REFRESH_HEADER);
 
-        if(refreshHeader == null){return ResponseDto.fail(ErrorCode.NEED_REFRESH_TOKEN);}
+        if(refreshHeader == null){throw new NeedRefreshTokenException(ErrorCode.NEED_REFRESH_TOKEN);}
 
         if(!refreshHeader.startsWith(TokenProperties.TOKEN_TYPE)){
-            return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+            throw new InvalidRefreshTokenException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         String refreshToken = refreshHeader.replace(TokenProperties.TOKEN_TYPE,"");
@@ -146,10 +145,10 @@ public class MemberService {
                             .build();
                     return ResponseDto.success(messageResponseDto);
                 } else {
-                    return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+                    throw new InvalidRefreshTokenException(ErrorCode.INVALID_REFRESH_TOKEN);
                 }
             default:
-                return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+                throw new InvalidRefreshTokenException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
     }
 
