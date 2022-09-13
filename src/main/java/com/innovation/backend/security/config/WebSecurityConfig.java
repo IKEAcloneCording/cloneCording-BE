@@ -48,6 +48,7 @@ public class WebSecurityConfig {
         http.authorizeRequests((authz)->authz
                 .antMatchers("/auth/**").authenticated()
                 .antMatchers("/signup/**").permitAll()
+                .antMatchers("/crawling").permitAll()
                 .anyRequest().permitAll());
 
         return http.build();
@@ -64,6 +65,9 @@ public class WebSecurityConfig {
             configuration.addAllowedMethod("*");
             //사용자 자격 증명이 지원되는지 여부
             configuration.setAllowCredentials(true);
+
+            // 클라이언트가 응답에 접근할 수 있는 헤더 설정
+            configuration.addExposedHeader("Authorization");
 
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/**", configuration);

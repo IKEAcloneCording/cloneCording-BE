@@ -20,6 +20,10 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
+    @Column
+    private String relatedKeywords;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Product> products;
