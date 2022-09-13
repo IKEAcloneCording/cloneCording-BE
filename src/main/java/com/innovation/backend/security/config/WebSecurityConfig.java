@@ -68,6 +68,7 @@ public class WebSecurityConfig {
 
             // 클라이언트가 응답에 접근할 수 있는 헤더 설정
             configuration.addExposedHeader("Authorization");
+            configuration.addExposedHeader("Refresh-Token");
 
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/**", configuration);
