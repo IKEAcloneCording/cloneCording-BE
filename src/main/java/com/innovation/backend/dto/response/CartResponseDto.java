@@ -11,11 +11,9 @@ import lombok.Getter;
 public class CartResponseDto {
 
   // TODO: product response 바꿔주기
-
-
 //  private MemberResponseDto member;
   private  Product product;
-
+  private Long cart_id;
   private  Integer count;
   private  BigDecimal sum;
   private  BigDecimal delivery_fee;
@@ -23,6 +21,7 @@ public class CartResponseDto {
   private LocalDateTime createdAt;
 
   public CartResponseDto (Cart cart){
+    this.cart_id = cart.getId();
     this.product = cart.getProduct();
     this.count = cart.getCount();
     this.sum = cart.getSum();
