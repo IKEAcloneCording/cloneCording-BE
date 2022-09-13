@@ -3,6 +3,7 @@ package com.innovation.backend.service;
 import com.innovation.backend.dto.request.LoginRequestDto;
 import com.innovation.backend.dto.request.SignupRequestDto;
 import com.innovation.backend.dto.response.MemberResponseDto;
+import com.innovation.backend.dto.response.MessageResponseDto;
 import com.innovation.backend.dto.response.ResponseDto;
 import com.innovation.backend.entity.Member;
 import com.innovation.backend.entity.RefreshToken;
@@ -11,11 +12,13 @@ import com.innovation.backend.jwt.util.JwtUtil;
 import com.innovation.backend.jwt.util.TokenProperties;
 import com.innovation.backend.repository.MemberRepository;
 import com.innovation.backend.repository.RefreshTokenRepository;
+import com.innovation.backend.security.user.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -73,7 +76,6 @@ public class MemberService {
         }
     }
 
-
     @Transactional
     public ResponseDto<?> login(LoginRequestDto loginRequestDto, HttpServletResponse response){
         String username = loginRequestDto.getEmail();
@@ -112,6 +114,42 @@ public class MemberService {
                 .name(member.getName())
                 .build();
         return ResponseDto.success(memberResponseDto);
+    }
+
+    @Transactional
+    public ResponseDto<?> logout(HttpServletRequest request, UserDetailsImpl userDetails){
+
+        Member member = userDetails.getMember();
+
+        String refreshHeader = request.getHeader(TokenProperties.REFRESH_HEADER);
+
+        if(refreshHeader == null){return ResponseDto.fail(ErrorCode.NEED_REFRESH_TOKEN);}
+
+        if(!refreshHeader.startsWith(TokenProperties.TOKEN_TYPE)){
+            return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        String refreshToken = refreshHeader.replace(TokenProperties.TOKEN_TYPE,"");
+
+        // 토큰 검증
+        String refreshTokenValidate = jwtUtil.validateToken(refreshToken);
+
+        switch (refreshTokenValidate) {
+            case TokenProperties.VALID:
+            case TokenProperties.EXPIRED:
+                RefreshToken refreshTokenFromDB = jwtUtil.getRefreshTokenFromDB(member);
+                if (refreshTokenFromDB != null && refreshToken.equals(refreshTokenFromDB.getTokenValue())) {
+                    refreshTokenRepository.delete(refreshTokenFromDB);
+                    MessageResponseDto messageResponseDto = MessageResponseDto.builder()
+                            .message("로그아웃 되었습니다.")
+                            .build();
+                    return ResponseDto.success(messageResponseDto);
+                } else {
+                    return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+                }
+            default:
+                return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
     }
 
     // 회원가입 조건 검증
