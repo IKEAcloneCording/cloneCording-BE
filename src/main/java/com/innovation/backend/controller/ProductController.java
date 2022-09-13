@@ -16,6 +16,11 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @RequestMapping(value = "/api/products", method = RequestMethod.GET)
+    public ResponseDto<?> showProductsByCategory(@RequestParam (value="category", defaultValue = "") String category) {
+        return productService.showProductsByCategory(category);
+    }
+
     @RequestMapping(value = "/api/products/search", method = RequestMethod.GET)
     public ResponseDto<?> searchProducts(@RequestParam (value="keyword", defaultValue = "") String searchKeyword) {
         return productService.searchProducts(searchKeyword);

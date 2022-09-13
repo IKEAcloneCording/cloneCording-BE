@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     Category findByRelatedKeywordsContaining(String keyword);
+    Category findByName(String categoryName);
 }
