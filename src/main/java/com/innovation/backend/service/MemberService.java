@@ -82,6 +82,7 @@ public class MemberService {
         Member member = isPresentMemberByUsername(username);
 
         if(member == null){return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);}
+        if(member == null){return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);}
 
         if(!member.validatePassword(passwordEncoder,loginRequestDto.getPassword())){
             return ResponseDto.fail(ErrorCode.MEMBER_NOT_FOUND);
@@ -173,7 +174,7 @@ public class MemberService {
     }
 
     private boolean passwordStrCheck (String password){
-        return Pattern.matches("^[A-Z0-9]{8,}$", password);
+        return Pattern.matches("^(?=.*\\d)[A-Z\\d!@#$%^&*]{8,}$", password);
     }
 
     @Transactional(readOnly = true)
