@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -23,10 +24,21 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private String image;
+    private String description;
+
+    private String measurement;
 
     @Column(nullable = false)
-    private int price;
+    private BigDecimal price;
+
+    @Column(nullable = false)
+    private String imageUrl;
+
+    @Column(nullable = false)
+    private String subImageUrl;
+
+    @Column(nullable = false)
+    private String url;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
