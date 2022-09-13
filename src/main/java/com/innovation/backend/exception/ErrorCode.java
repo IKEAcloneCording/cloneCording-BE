@@ -22,17 +22,19 @@ public enum ErrorCode {
     // 회원 관련 에러
     MEMBER_NOT_FOUND("MEMBER_NOT_FOUND", "사용자를 찾을 수 없습니다."),
 
+    // 권한 요청 시 Access 토큰을 보내지 않은 경우
+    INVALID_LOGIN("INVALID_LOGIN", "로그인이 필요합니다."),
+
+    // 로그아웃시 refresh 토큰을 보내지 않은 경우
+    NEED_REFRESH_TOKEN("NEED_REFRESH_TOKEN","Refresh Token이 필요합니다."),
+
     // 유효하지 않은 토큰
     INVALID_ACCESS_TOKEN("INVALID_ACCESS_TOKEN", "유효하지 않은 Access Token 입니다."),
     INVALID_REFRESH_TOKEN("INVALID_REFRESH_TOKEN", "유효하지 않은 Refresh Token 입니다."),
 
     // 만료된 토큰
     EXPIRED_ACCESS_TOKEN("EXPIRED_ACCESS_TOKEN", "만료된 Access Token 입니다."),
-    EXPIRED_REFRESH_TOKEN("EXPIRED_REFRESH_TOKEN", "만료된 Refresh Token 입니다."),
-
-    // 권한 요청 시 Access 토큰을 보내지 않은 경우
-    INVALID_LOGIN("INVALID_LOGIN", "로그인이 필요합니다.");
-
+    EXPIRED_REFRESH_TOKEN("EXPIRED_REFRESH_TOKEN", "만료된 Refresh Token 입니다.");
 
     private final String code;
     private final String message;
