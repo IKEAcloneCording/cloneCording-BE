@@ -10,13 +10,14 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CartGetListResponseDto {
+
   @Schema(description = "장바구니 상품들")
   private List<CartResponseDto> cartProducts;
-  @Schema(description = "총 배송비")
+  @Schema(description = "총 배송비", example = "15000")
   private BigDecimal total_delivery_fee;
-  @Schema(description = "총 제품비")
+  @Schema(description = "총 제품비", example = "229000")
   private BigDecimal total_order_price;
-  @Schema(description = "총 금액 (배송비+제품비)")
+  @Schema(description = "총 금액 (배송비+제품비)", example = "244000")
   private BigDecimal total_order_and_delivery_price;
 
 

@@ -18,11 +18,11 @@ import lombok.NoArgsConstructor;
 public class CartResponseDto {
   @Schema(description = "상품")
   private Product product;
-  @Schema(description = "카트 아이디")
+  @Schema(description = "카트 아이디", example = "1")
   private Long cart_id;
-  @Schema(description = "상품 갯수")
+  @Schema(description = "상품 갯수", example = "1")
   private  int count;
-  @Schema(description = "카트의 합계 금액")
+  @Schema(description = "카트의 합계 금액", example = "229000")
   private  BigDecimal cart_price;// 카트 당 합계 금액
   @Schema(description = "일자")
   private LocalDateTime createdAt;
