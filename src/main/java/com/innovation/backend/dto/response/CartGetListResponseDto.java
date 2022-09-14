@@ -12,6 +12,7 @@ public class CartGetListResponseDto {
   private List<CartResponseDto> cartProducts;
   private BigDecimal total_delivery_fee;
   private BigDecimal total_order_price;
+  private BigDecimal total_order_and_delivery_price;
 
 
 }
