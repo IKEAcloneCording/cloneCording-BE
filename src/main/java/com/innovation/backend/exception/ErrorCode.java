@@ -37,7 +37,8 @@ public enum ErrorCode {
     EXPIRED_REFRESH_TOKEN("EXPIRED_REFRESH_TOKEN", "만료된 Refresh Token 입니다."),
 
     // 상품 id 관련 에러
-    ID_NOT_FOUND("ID_NOT_FOUND", "존재하지 않는 ID입니다.");
+    ID_NOT_FOUND("ID_NOT_FOUND", "존재하지 않는 ID입니다."),
+    CATEGORY_NOT_FOUND("CATEGORY_NOT_FOUND", "존재하지 않는 카테고리입니다.");
 
     private final String code;
     private final String message;
