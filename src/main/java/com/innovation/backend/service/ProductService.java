@@ -8,7 +8,6 @@ import com.innovation.backend.entity.Category;
 import com.innovation.backend.entity.Product;
 import com.innovation.backend.exception.CategoryNotFoundException;
 import com.innovation.backend.exception.EmptyValueException;
-import com.innovation.backend.exception.ErrorCode;
 import com.innovation.backend.exception.ProductNotFoundException;
 import com.innovation.backend.repository.CategoryRepository;
 import com.innovation.backend.repository.ProductRepository;
@@ -34,11 +33,7 @@ public class ProductService {
     @Transactional
     public ResponseDto<?> showProductsByCategory(String categoryName) {
 
-        if (categoryName == null) {
-            throw new CategoryNotFoundException(CATEGORY_NOT_FOUND);
-        }
-
-        Category selectedCategory = categoryRepository.findByName(categoryName);
+        Category selectedCategory = isPresentCategory(categoryName);
 
         if (selectedCategory == null) {
             throw new CategoryNotFoundException(CATEGORY_NOT_FOUND);
@@ -75,7 +70,7 @@ public class ProductService {
     @Transactional
     public ResponseDto<?> searchProducts(String searchKeyword) {
 
-        if (searchKeyword == null) {
+        if (searchKeyword.equals("")) {
             throw new EmptyValueException(EMPTY_VALUE);
         }
 
@@ -150,5 +145,10 @@ public class ProductService {
     public Product isPresent(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
         return productOptional.orElse(null);
+    }
+
+    public Category isPresentCategory(String categoryName) {
+        Optional<Category> categoryOptional = categoryRepository.findByName(categoryName);
+        return categoryOptional.orElse(null);
     }
 }
