@@ -21,7 +21,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/api/products/search", method = RequestMethod.GET)
-    public ResponseDto<?> searchProducts(@RequestParam (value="keyword", defaultValue = "") String searchKeyword) {
+    public ResponseDto<?> searchProducts(@RequestParam (value="keyword") String searchKeyword) {
         return productService.searchProducts(searchKeyword);
     }
 

@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionController {
 
     @ExceptionHandler
+    public ResponseEntity<ResponseDto> CategoryNotFoundExceptionHandler(CategoryNotFoundException exception) {
+        return new ResponseEntity<>(ResponseDto.fail(ErrorCode.CATEGORY_NOT_FOUND), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ResponseDto> DuplicateUsernameExceptionHandler(DuplicateUsernameException exception) {
         return new ResponseEntity<>(ResponseDto.fail(ErrorCode.DUPLICATE_EMAIL), HttpStatus.BAD_REQUEST);
     }
@@ -62,6 +67,11 @@ public class GlobalExceptionController {
     @ExceptionHandler
     public ResponseEntity<ResponseDto> NeedRefreshTokenExceptionHandler(NeedRefreshTokenException exception) {
         return new ResponseEntity<>(ResponseDto.fail(ErrorCode.NEED_REFRESH_TOKEN), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ResponseDto> ProductNotFoundExceptionHandler(ProductNotFoundException exception) {
+        return new ResponseEntity<>(ResponseDto.fail(ErrorCode.ID_NOT_FOUND), HttpStatus.BAD_REQUEST);
     }
 
 }
