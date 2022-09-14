@@ -96,6 +96,7 @@ public class CartServiceImpl implements CartService{
         .cartProducts(cartProducts)
         .total_delivery_fee(new BigDecimal(15000 * totalCnt))
         .total_order_price(totalPrice)
+        .total_order_and_delivery_price(totalPrice.add(new BigDecimal(15000 * totalCnt)))
         .build();
 
     return cartGetListResponseDto;
