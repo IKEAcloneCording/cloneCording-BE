@@ -56,8 +56,14 @@ public class ProductService {
     public ResponseDto<?> searchProducts(String searchKeyword) {
 
         // 1. 카테고리 연관 키워드로 검색 리스트 만들기
-        Category relatedCategory = categoryRepository.findByRelatedKeywordsContaining(searchKeyword);
-        List<Product> categorySearch = productRepository.findAllByCategory(relatedCategory);
+        List<Category> relatedCategories = categoryRepository.findAllByRelatedKeywordsContaining(searchKeyword);
+
+        List<Product> categorySearch = new ArrayList<>();
+        for (Category category : relatedCategories) {
+            List<Product> dataForMerge = productRepository.findAllByCategory(category);
+            categorySearch.removeAll(dataForMerge);
+            categorySearch.addAll(dataForMerge);
+        }
 
         // 2. 상품 상세 설명으로 검색 리스트 만들기
         List<Product> descriptionSearch = productRepository.findAllByDescriptionContaining(searchKeyword);
