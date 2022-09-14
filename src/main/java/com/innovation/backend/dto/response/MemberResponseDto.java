@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class MemberResponseDto {
     @Schema(description = "사용자 id (PK)")
     private Long id;
-    @Schema(description = "이메일 주소")
+    @Schema(description = "email주소", example = "test1@google.com")
     private String email;
-    @Schema(description = "사용자 이름")
+    @Schema(description = "이름", example = "홍길동")
     private String name;
 }
