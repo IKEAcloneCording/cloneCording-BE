@@ -1,4 +1,4 @@
-package com.innovation.backend.dto.resquest;
+package com.innovation.backend.dto.request;
 
 
 import com.sun.istack.NotNull;

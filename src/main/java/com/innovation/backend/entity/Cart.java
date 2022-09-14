@@ -1,15 +1,12 @@
 package com.innovation.backend.entity;
 
-import com.innovation.backend.dto.resquest.CartRequestDto;
+import com.innovation.backend.dto.request.CartRequestDto;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @NoArgsConstructor
@@ -45,7 +42,7 @@ public Cart (CartRequestDto cartRequestDto,Member member, Product product){
     this.product = product;
     this.member = member;
     this.count = cartRequestDto.getCount();
-    this.sum =new BigDecimal(product.getPrice() * count);
+    this.sum =product.getPrice().multiply(new BigDecimal(count));
     this.delivery_fee = new BigDecimal(count * 15000);
 }
 

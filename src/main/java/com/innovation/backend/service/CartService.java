@@ -2,11 +2,10 @@ package com.innovation.backend.service;
 
 
 import com.innovation.backend.dto.response.CartResponseDto;
-import com.innovation.backend.dto.resquest.CartRequestDto;
+import com.innovation.backend.dto.request.CartRequestDto;
 import com.innovation.backend.entity.Member;
 import com.innovation.backend.entity.Product;
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 
 public interface CartService {

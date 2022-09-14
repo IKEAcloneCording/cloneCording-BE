@@ -10,11 +10,11 @@ import lombok.Getter;
 @Getter
 public class CartResponseDto {
 
-  // TODO: product response 바꿔주기
+  //product response 바꿔주기
 //  private MemberResponseDto member;
   private  Product product;
   private Long cart_id;
-  private  Integer count;
+  private  int count;
   private  BigDecimal sum;
   private  BigDecimal delivery_fee;
 

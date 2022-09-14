@@ -2,11 +2,10 @@ package com.innovation.backend.service;
 
 
 import com.innovation.backend.dto.response.CartResponseDto;
-import com.innovation.backend.dto.resquest.CartRequestDto;
+import com.innovation.backend.dto.request.CartRequestDto;
 import com.innovation.backend.entity.Cart;
 import com.innovation.backend.entity.Member;
 import com.innovation.backend.entity.Product;
-import com.innovation.backend.exception.ErrorCode;
 import com.innovation.backend.repository.CartRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,16 +49,16 @@ public class CartServiceImpl implements CartService{
   public List<CartResponseDto> getCartList(Member member) {
     List<Cart> carts = cartRepository.findByMember(member);
 
-    return carts.stream().map(CartResponseDto::new).collect(Collectors.toList()); // 람다식
+//    return carts.stream().map(CartResponseDto::new).collect(Collectors.toList()); // 람다식
 //TODO: CartResponseDto를 바꾸고 나서 수정하기
 
-//    List<CartResponseDto> cartResponseDtoList = new ArrayList<>();
-//    for(Cart cart : carts){
-//      CartResponseDto cartResponseDto = new CartResponseDto(cart);
-//      cartResponseDtoList.add(cartResponseDto);
-//    }
-//
-//    return cartResponseDtoList;
+    List<CartResponseDto> cartResponseDtoList = new ArrayList<>();
+    for(Cart cart : carts){
+      CartResponseDto cartResponseDto = new CartResponseDto(cart);
+      cartResponseDtoList.add(cartResponseDto);
+    }
+
+    return cartResponseDtoList;
   }
 
   //장바구니 상품 수량 변경
