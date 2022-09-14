@@ -35,7 +35,7 @@ public class Member {
     @Column(nullable = false)
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Cart> carts;
 
