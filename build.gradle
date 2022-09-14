@@ -23,6 +23,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.projectlombok:lombok:1.18.22'
+
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -39,8 +41,19 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
+	//설정파일 암호화
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+
+	//암호화 알고리즘
+	implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
+
+	//Swagger setting
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+
 	// Jsoup
 	implementation 'org.jsoup:jsoup:1.15.3'
+
+
 }
 
 tasks.named('test') {
