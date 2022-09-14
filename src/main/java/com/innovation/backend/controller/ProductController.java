@@ -15,9 +15,9 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @RequestMapping(value = "/api/products/cat", method = RequestMethod.GET)
-    public ResponseDto<?> showProductsByCategory(@RequestParam (value="name", defaultValue = "") String category) {
-        return productService.showProductsByCategory(category);
+    @RequestMapping(value = "/api/products/cat/{categoryName}", method = RequestMethod.GET)
+    public ResponseDto<?> showProductsByCategory(@PathVariable String categoryName) {
+        return productService.showProductsByCategory(categoryName);
     }
 
     @RequestMapping(value = "/api/products/search", method = RequestMethod.GET)
