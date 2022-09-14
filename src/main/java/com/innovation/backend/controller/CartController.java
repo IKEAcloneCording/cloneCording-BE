@@ -11,6 +11,8 @@ import com.innovation.backend.repository.ProductRepository;
 import com.innovation.backend.security.user.UserDetailsImpl;
 import com.innovation.backend.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -92,6 +94,7 @@ public class CartController {
       @ApiResponse(responseCode = "200", description = "상품 수량 변경 성공", content = @Content(schema = @Schema(implementation = CartResponseDto.class))),
       @ApiResponse(responseCode = "404", description = "존재하지 않는 리소스 접근", content = @Content(schema = @Schema(implementation = ErrorCode.class))) })
   @Operation(summary = "장바구니 상품 수량 변경", description = "cart_id 를 통해 해당 상품의 갯수 (count)를 변경합니다.")
+  @Parameter(name = "id", description = "cart 의 id", in = ParameterIn.PATH)
   @PutMapping("/api/auth/cart/{id}/change-count")
   public ResponseDto<CartResponseDto>  changeCount (@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CartRequestDto cartRequestDto ){
     CartResponseDto cartResponseDto;
@@ -112,6 +115,7 @@ public class CartController {
 
   //장바구니 상품 삭제
   @Operation(summary = "장바구니 상품 하나 삭제", description = "장바구니에 있는 상품 중 하나만 삭제합니다.")
+  @Parameter(name = "id", description = "cart 의 id", in = ParameterIn.PATH)
 @DeleteMapping("/api/auth/cart/{id}")
 public ResponseDto<String> deleteOneItem (@PathVariable Long id){
   try {
