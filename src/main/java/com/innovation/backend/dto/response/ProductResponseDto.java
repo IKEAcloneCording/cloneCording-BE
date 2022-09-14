@@ -15,6 +15,7 @@ public class ProductResponseDto {
     private Long id;
     private String name;
     private String description;
+    private String measurement;
     private BigDecimal price;
     private String image_url;
     private String subImage_url;
