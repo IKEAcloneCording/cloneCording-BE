@@ -6,6 +6,8 @@ import com.innovation.backend.dto.response.ProductResponseDto;
 import com.innovation.backend.dto.response.ResponseDto;
 import com.innovation.backend.entity.Category;
 import com.innovation.backend.entity.Product;
+import com.innovation.backend.exception.CategoryNotFoundException;
+import com.innovation.backend.exception.EmptyValueException;
 import com.innovation.backend.exception.ErrorCode;
 import com.innovation.backend.repository.CategoryRepository;
 import com.innovation.backend.repository.ProductRepository;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.innovation.backend.exception.ErrorCode.ID_NOT_FOUND;
+import static com.innovation.backend.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +32,17 @@ public class ProductService {
 
     @Transactional
     public ResponseDto<?> showProductsByCategory(String categoryName) {
+
+        if (categoryName == null) {
+            throw new CategoryNotFoundException(CATEGORY_NOT_FOUND);
+        }
+
         Category selectedCategory = categoryRepository.findByName(categoryName);
+
+        if (selectedCategory == null) {
+            throw new CategoryNotFoundException(CATEGORY_NOT_FOUND);
+        }
+
         List<Product> productList = productRepository.findAllByCategory(selectedCategory);
 
         List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
@@ -62,9 +74,19 @@ public class ProductService {
     @Transactional
     public ResponseDto<?> searchProducts(String searchKeyword) {
 
+        if (searchKeyword == null) {
+            throw new EmptyValueException(EMPTY_VALUE);
+        }
+
         // 1. 카테고리 연관 키워드로 검색 리스트 만들기
-        Category relatedCategory = categoryRepository.findByRelatedKeywordsContaining(searchKeyword);
-        List<Product> categorySearch = productRepository.findAllByCategory(relatedCategory);
+        List<Category> relatedCategories = categoryRepository.findAllByRelatedKeywordsContaining(searchKeyword);
+
+        List<Product> categorySearch = new ArrayList<>();
+        for (Category category : relatedCategories) {
+            List<Product> dataForMerge = productRepository.findAllByCategory(category);
+            categorySearch.removeAll(dataForMerge);
+            categorySearch.addAll(dataForMerge);
+        }
 
         // 2. 상품 상세 설명으로 검색 리스트 만들기
         List<Product> descriptionSearch = productRepository.findAllByDescriptionContaining(searchKeyword);
