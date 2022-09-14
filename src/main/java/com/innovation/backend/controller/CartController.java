@@ -1,5 +1,6 @@
 package com.innovation.backend.controller;
 
+import com.innovation.backend.dto.response.CartGetListResponseDto;
 import com.innovation.backend.dto.response.CartResponseDto;
 import com.innovation.backend.dto.response.ResponseDto;
 import com.innovation.backend.dto.request.CartRequestDto;
@@ -52,11 +53,11 @@ public class CartController {
 
   //장바구니 조회
   @GetMapping("/api/auth/cart")
-  public ResponseDto<List<CartResponseDto>> getCart(@AuthenticationPrincipal UserDetailsImpl userDetails){
-    List<CartResponseDto> cartResponseDtoList;
+  public ResponseDto<CartGetListResponseDto> getCart(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    CartGetListResponseDto cartGetListResponseDto;
     try {
       Member member = userDetails.getMember();
-      cartResponseDtoList = cartService.getCartList(member);
+      cartGetListResponseDto = cartService.getCartList(member);
     } catch (EntityNotFoundException e) {
       log.error(e.getMessage());
       return ResponseDto.fail(ErrorCode.ENTITY_NOT_FOUND);
@@ -65,7 +66,7 @@ public class CartController {
       log.error(e.getMessage());
       return ResponseDto.fail(ErrorCode.INVALID_ERROR);
     }
-    return ResponseDto.success(cartResponseDtoList);
+    return ResponseDto.success(cartGetListResponseDto);
   }
 
 

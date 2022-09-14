@@ -1,6 +1,7 @@
 package com.innovation.backend.service;
 
 
+import com.innovation.backend.dto.response.CartGetListResponseDto;
 import com.innovation.backend.dto.response.CartResponseDto;
 import com.innovation.backend.dto.request.CartRequestDto;
 import com.innovation.backend.entity.Member;
@@ -14,7 +15,7 @@ public interface CartService {
   CartResponseDto addCart(CartRequestDto cartRequestDto,Member member, Product product);
 
   //장바구니 조회하기
-  List<CartResponseDto> getCartList(Member member);
+  CartGetListResponseDto getCartList(Member member);
 
   //장바구니 상품 수량 변경
   CartResponseDto changeItemCount(Long id, Member member, CartRequestDto cartRequestDto);
