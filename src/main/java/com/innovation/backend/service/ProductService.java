@@ -1,8 +1,8 @@
 package com.innovation.backend.service;
 
+import com.innovation.backend.dto.response.ProductListResponseDto;
 import com.innovation.backend.dto.response.ProductResponseDto;
 import com.innovation.backend.dto.response.ResponseDto;
-import com.innovation.backend.dto.response.SearchResponseDto;
 import com.innovation.backend.entity.Category;
 import com.innovation.backend.entity.Product;
 import com.innovation.backend.repository.CategoryRepository;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.directory.SearchResult;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +26,11 @@ public class ProductService {
         Category selectedCategory = categoryRepository.findByName(categoryName);
         List<Product> productList = productRepository.findAllByCategory(selectedCategory);
 
-        List<ProductResponseDto> catProductsResult = new ArrayList<>();
+        List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
 
+        int cnt = 0;
         for (Product product : productList) {
-            catProductsResult.add(
+            productResponseDtoList.add(
                     ProductResponseDto.builder()
                             .id(product.getId())
                             .name(product.getName())
@@ -41,8 +41,15 @@ public class ProductService {
                             .url(product.getUrl())
                             .build()
             );
+            cnt++;
         }
-        return ResponseDto.success(catProductsResult);
+
+        ProductListResponseDto productsByCategory = ProductListResponseDto.builder()
+                .products(productResponseDtoList)
+                .totalCount(cnt)
+                .build();
+
+        return ResponseDto.success(productsByCategory);
     }
 
     @Transactional
@@ -61,10 +68,11 @@ public class ProductService {
         mergedList.addAll(descriptionSearch);
 
         // 3. ResponseDto로 변환하기
-        List<ProductResponseDto> searchResultList = new ArrayList<>();
+        List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
 
+        int cnt = 0;
         for (Product product : mergedList) {
-            searchResultList.add(
+            productResponseDtoList.add(
                     ProductResponseDto.builder()
                             .id(product.getId())
                             .name(product.getName())
@@ -75,7 +83,14 @@ public class ProductService {
                             .url(product.getUrl())
                             .build()
             );
+            cnt++;
         }
-        return ResponseDto.success(searchResultList);
+
+        ProductListResponseDto ProductsBySearch = ProductListResponseDto.builder()
+                .products(productResponseDtoList)
+                .totalCount(cnt)
+                .build();
+
+        return ResponseDto.success(ProductsBySearch);
     }
 }

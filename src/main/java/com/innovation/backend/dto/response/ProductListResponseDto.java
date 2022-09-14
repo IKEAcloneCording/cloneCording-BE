@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchResponseDto {
-    private Integer totalCount;
-    private List<Product> products;
+public class ProductListResponseDto {
+    private int totalCount;
+    private List<ProductResponseDto> products;
 }
