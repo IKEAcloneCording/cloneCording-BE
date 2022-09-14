@@ -9,6 +9,7 @@ import com.innovation.backend.entity.Product;
 import com.innovation.backend.exception.CategoryNotFoundException;
 import com.innovation.backend.exception.EmptyValueException;
 import com.innovation.backend.exception.ErrorCode;
+import com.innovation.backend.exception.ProductNotFoundException;
 import com.innovation.backend.repository.CategoryRepository;
 import com.innovation.backend.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -131,7 +132,7 @@ public class ProductService {
     public ResponseDto<?> getProduct(Long id) {
         Product product = isPresent(id);
         if(null == product) {
-            return ResponseDto.fail(ID_NOT_FOUND);
+            throw new ProductNotFoundException(ID_NOT_FOUND);
         }
         ProductResponseDto productResponseDto = ProductResponseDto.builder()
                 .id(id)
