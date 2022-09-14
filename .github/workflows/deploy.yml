@@ -33,6 +33,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: '11'
+        distributioin: 'adopt'
         
 #    # (3) application.yml 설정
 #    - name: Set yaml file
