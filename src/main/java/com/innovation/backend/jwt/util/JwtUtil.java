@@ -69,6 +69,7 @@ public class JwtUtil {
     public void exceptionResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        response.setStatus(401);
         ResponseDto<?> responseDto = ResponseDto.fail(errorCode);
         String httpResponse = objectMapper.writeValueAsString(responseDto);
         response.getWriter().write(httpResponse);

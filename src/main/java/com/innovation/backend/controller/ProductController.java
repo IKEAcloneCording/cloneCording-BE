@@ -7,6 +7,8 @@ import com.innovation.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RequiredArgsConstructor
 @RestController
 public class ProductController {
@@ -21,6 +23,16 @@ public class ProductController {
     @RequestMapping(value = "/api/products/search", method = RequestMethod.GET)
     public ResponseDto<?> searchProducts(@RequestParam (value="keyword", defaultValue = "") String searchKeyword) {
         return productService.searchProducts(searchKeyword);
+    }
+
+    @RequestMapping(value = "/api/products", method = RequestMethod.GET)
+    public ResponseDto<?> getAllProducts() throws IOException {
+        return productService.getAllProducts();
+    }
+
+    @RequestMapping(value = "/api/p/{id}", method = RequestMethod.GET)
+    public ResponseDto<?> getProduct(@PathVariable Long id) {
+        return productService.getProduct(id);
     }
 
 

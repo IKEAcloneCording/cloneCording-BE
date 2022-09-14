@@ -9,6 +9,9 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
+    ENTITY_NOT_FOUND("ENTITY_NOT_FOUND","데이터가 존재하지 않습니다."),
+    INVALID_ERROR("INVALID_ERROR","에러 발생"),
+
     //회원가입, 로그인 관련 에러
     EMPTY_VALUE("EMPTY_VALUE", "정보를 입력하세요."),
     INVALID_EMAIL("INVALID_EMAIL", "필드는 100자 이하여야 하며, @ 기호 전까지 64자 이하여야 합니다."),
@@ -31,7 +34,10 @@ public enum ErrorCode {
 
     // 만료된 토큰
     EXPIRED_ACCESS_TOKEN("EXPIRED_ACCESS_TOKEN", "만료된 Access Token 입니다."),
-    EXPIRED_REFRESH_TOKEN("EXPIRED_REFRESH_TOKEN", "만료된 Refresh Token 입니다.");
+    EXPIRED_REFRESH_TOKEN("EXPIRED_REFRESH_TOKEN", "만료된 Refresh Token 입니다."),
+
+    // 상품 id 관련 에러
+    ID_NOT_FOUND("ID_NOT_FOUND", "존재하지 않는 ID입니다.");
 
     private final String code;
     private final String message;
