@@ -48,7 +48,6 @@ public class CartServiceImpl implements CartService{
         .product(cart.getProduct())
         .count(cartRequestDto.getCount())
         .cart_price(cart.getSum())
-  //      .delivery_fee(new BigDecimal(cartRequestDto.getCount() * 15000))
         .createdAt(cart.getCreatedAt())
         .build();
   }
@@ -116,7 +115,6 @@ public class CartServiceImpl implements CartService{
         .product(cart.getProduct())
         .count(cartRequestDto.getCount())
         .cart_price(cart.getSum())
-  //      .delivery_fee(new BigDecimal(cartRequestDto.getCount() * 15000))
         .createdAt(cart.getCreatedAt())
         .build();
   }
