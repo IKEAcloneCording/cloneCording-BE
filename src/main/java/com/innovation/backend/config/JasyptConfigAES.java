@@ -23,7 +23,7 @@ public class JasyptConfigAES {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setProvider(new BouncyCastleProvider());
         encryptor.setPoolSize(2);
-        encryptor.setPassword("password"); // 암호화 키
+        encryptor.setPassword("encryptKeyValue"); // 암호화 키
         encryptor.setAlgorithm("PBEWithSHA256And128BitAES-CBC-BC"); // 알고리즘
 
         return encryptor;
