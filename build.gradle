@@ -54,7 +54,7 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.15.3'
 
 	// parameter store 관련
-	implementation 'com.coveo:spring-boot-parameter-store-integration:1.1.2'
+	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws-parameter-store-config'
 
 }
 
@@ -63,4 +63,11 @@ tasks.named('test') {
 }
 jar {
 	enabled = false
+}
+
+// spring cloud dependency
+dependencyManagement {
+	imports {
+		mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:2.3.3"
+	}
 }
