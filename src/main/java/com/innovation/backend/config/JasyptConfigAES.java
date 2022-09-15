@@ -4,6 +4,7 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,12 +19,15 @@ import org.springframework.context.annotation.Configuration;
 @EnableEncryptableProperties
 public class JasyptConfigAES {
 
+    @Value("${jasypt.encryptor.password}")
+    private String encryptKey;
+
     @Bean("jasyptEncryptor")
     public StringEncryptor stringEncryptor() {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setProvider(new BouncyCastleProvider());
         encryptor.setPoolSize(2);
-        encryptor.setPassword("encryptKeyValue"); // 암호화 키
+        encryptor.setPassword(encryptKey); // 암호화 키
         encryptor.setAlgorithm("PBEWithSHA256And128BitAES-CBC-BC"); // 알고리즘
 
         return encryptor;

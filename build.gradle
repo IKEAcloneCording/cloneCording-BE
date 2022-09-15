@@ -53,6 +53,8 @@ dependencies {
 	// Jsoup
 	implementation 'org.jsoup:jsoup:1.15.3'
 
+	// parameter store 관련
+	implementation 'com.coveo:spring-boot-parameter-store-integration:1.1.2'
 
 }
 
