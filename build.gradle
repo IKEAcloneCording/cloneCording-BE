@@ -42,7 +42,7 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
 	//설정파일 암호화
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
 	//암호화 알고리즘
 	implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
