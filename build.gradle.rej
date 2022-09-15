@@ -1,0 +1,9 @@
+diff a/build.gradle b/build.gradle	(rejected hunks)
+@@ -42,6 +42,7 @@
+ 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+ 
+ 	// 암호 알고리즘
++	implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
+ }
+ 
+ tasks.named('test') {
