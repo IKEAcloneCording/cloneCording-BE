@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: deingvelopawsbucket
-  RESOURCE_PATH: ./src/main/resources/application.yaml
+#  RESOURCE_PATH: ./src/main/resources/application.yml
   CODE_DEPLOY_APPLICATION_NAME: my-codedeploy-app
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-codedeploy-deployment-group
 
@@ -20,7 +20,7 @@ permissions:
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment: production
 
     steps:

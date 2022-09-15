@@ -14,6 +14,7 @@ class JasyptConfigAESTest {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setProvider(new BouncyCastleProvider());
         encryptor.setPoolSize(2);
+
         encryptor.setPassword("******");
         encryptor.setAlgorithm("PBEWithSHA256And128BitAES-CBC-BC");
 

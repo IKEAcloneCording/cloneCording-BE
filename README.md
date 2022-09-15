@@ -2,7 +2,7 @@
 
 **[서비스 시연 및 발표 영상]()**
 
-**[팀 노션]()**
+**[팀 노션](https://www.notion.so/7-IKEA-081fb84cc30747b981c8720a035b48fb)**
 
 
 <br />
@@ -45,8 +45,7 @@
 <br />
 
 ##  ER 다이어그램
-![img.png](img.png)
-
+![image](https://user-images.githubusercontent.com/100582309/190291885-0628d7b3-68b5-4320-891d-0b3c57fd9643.png)
 
 
 <br />
