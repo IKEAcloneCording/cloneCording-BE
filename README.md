@@ -1,6 +1,6 @@
 # IKEA 클론코딩
 
-**[서비스 시연 및 발표 영상]()**
+**[서비스 시연 및 발표 영상](https://youtu.be/VYtehjDeuXM)**
 
 **[팀 노션](https://www.notion.so/7-IKEA-081fb84cc30747b981c8720a035b48fb)**
 
